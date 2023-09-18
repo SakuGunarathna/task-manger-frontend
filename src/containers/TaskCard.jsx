@@ -1,16 +1,13 @@
 import React, { useState } from "react";
+import { Tooltip,Card,CardHeader, CardActions, IconButton } from "@mui/material";
 
-import Card from "@mui/material/Card";
-import CardHeader from "@mui/material/CardHeader";
-import CardActions from "@mui/material/CardActions";
-import IconButton from "@mui/material/IconButton";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import { Tooltip } from "@mui/material";
 import TaskView from "./TaskView";
 import FlagIcon from "@mui/icons-material/Flag";
 import { priorityStates } from "../utils/data";
+import { taskActions } from "../constants/ref";
 
 const TaskCard = ({ task, action, setAction, handleTask }) => {
   const [modalOpen, setModalOpen] = useState(false);
@@ -65,7 +62,7 @@ const TaskCard = ({ task, action, setAction, handleTask }) => {
               aria-label="edit"
               onClick={() => {
                 setModalOpen(true);
-                setAction("edit");
+                setAction(taskActions.EDIT);
               }}
             >
               <EditIcon />
@@ -76,7 +73,7 @@ const TaskCard = ({ task, action, setAction, handleTask }) => {
               aria-label="delete"
               onClick={() => {
                 setModalOpen(true);
-                setAction("delete");
+                setAction(taskActions.DELETE);
               }}
             >
               <DeleteIcon />

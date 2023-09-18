@@ -17,6 +17,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { priorityStates } from "../utils/data";
+import { taskActions } from "../constants/ref";
 
 const style = {
   position: "absolute",
@@ -39,7 +40,7 @@ const validationSchema = yup.object({
 const TaskView = ({ open, setOpen, task, handleSubmit, action }) => {
   const onSubmit = (values, { resetForm }) => {
     handleSubmit(values);
-    resetForm();
+    action === taskActions.ADD && resetForm();
   };
 
   const formik = useFormik({
@@ -58,13 +59,13 @@ const TaskView = ({ open, setOpen, task, handleSubmit, action }) => {
       >
         <Box sx={style}>
           <div id="modal-modal-title" variant="h6" component="h2">
-            {action === "add"
+            {action === taskActions.ADD
               ? "Add Task"
               : action === "view"
               ? "View Task"
-              : action === "edit"
+              : action === taskActions.EDIT
               ? "Edit task"
-              : action === "delete"
+              : action === taskActions.DELETE
               ? "Delete task"
               : ""}
           </div>
@@ -82,7 +83,7 @@ const TaskView = ({ open, setOpen, task, handleSubmit, action }) => {
                   onBlur={formik.handleBlur}
                   error={formik.touched.title && Boolean(formik.errors.title)}
                   helperText={formik.touched.title && formik.errors.title}
-                  disabled={action === "view" || action === "delete"}
+                  disabled={action === taskActions.VIEW || action === taskActions.DELETE}
                   required
                 />
                 <TextField
@@ -103,7 +104,7 @@ const TaskView = ({ open, setOpen, task, handleSubmit, action }) => {
                   helperText={
                     formik.touched.description && formik.errors.description
                   }
-                  disabled={action === "view" || action === "delete"}
+                  disabled={action === "view" || action === taskActions.DELETE}
                   required
                 />
                 <FormControl fullWidth style={{ margin: "15px 0 15px 0" }}>
@@ -117,7 +118,7 @@ const TaskView = ({ open, setOpen, task, handleSubmit, action }) => {
                         onChange={(value) =>
                           formik.setFieldValue("dueDate", value, true)
                         }
-                        disabled={action === "view" || action === "delete"}
+                        disabled={action === "view" || action === taskActions.DELETE}
                         required
                       />
                     </DemoContainer>
@@ -135,7 +136,7 @@ const TaskView = ({ open, setOpen, task, handleSubmit, action }) => {
                     error={
                       formik.touched.priority && Boolean(formik.errors.priority)
                     }
-                    disabled={action === "view" || action === "delete"}
+                    disabled={action === "view" || action === taskActions.DELETE}
                     required
                   >
                     {priorityStates.map(({ status, id }) => {
@@ -149,11 +150,11 @@ const TaskView = ({ open, setOpen, task, handleSubmit, action }) => {
                 </FormControl>
                 {action !== "view" && (
                   <Button color="primary" variant="contained" type="submit">
-                    {action === "add"
+                    {action === taskActions.ADD
                       ? "Add"
-                      : action === "edit"
+                      : action === taskActions.EDIT
                       ? "Edit"
-                      : action === "delete"
+                      : action === taskActions.DELETE
                       ? "Delete"
                       : ""}
                   </Button>

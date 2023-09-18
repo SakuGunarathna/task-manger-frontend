@@ -13,6 +13,7 @@ import AddIcon from "@mui/icons-material/Add";
 import { getTasksByStatus, addTask, updateTask, deleteTask } from "../apis/task-api";
 import TaskView from "./TaskView";
 import { initTask } from "../utils/data";
+import { taskActions } from "../constants/ref";
 
 const TaskTab = ({ status, color, statusId }) => {
   const [taskData, setTaskData] = useState([]);
@@ -30,11 +31,11 @@ const TaskTab = ({ status, color, statusId }) => {
 
   const handleTask = async (values) => {
     try {
-      if (action === "add") {
+      if (action === taskActions.ADD) {
         await addTask(values);
-      } else if (action === "edit") {
+      } else if (action === taskActions.EDIT) {
         await updateTask(values);
-      } else if (action === "delete") {
+      } else if (action === taskActions.DELETE) {
         await deleteTask(values.id);
       }
       setModalOpen(false);
@@ -85,7 +86,7 @@ const TaskTab = ({ status, color, statusId }) => {
                     aria-label="view"
                     onClick={() => {
                       setModalOpen(true);
-                      setAction("add");
+                      setAction(taskActions.ADD);
                     }}
                   >
                     <AddIcon />
